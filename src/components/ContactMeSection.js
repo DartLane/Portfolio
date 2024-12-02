@@ -22,9 +22,31 @@ const LandingSection = () => {
   const { onOpen } = useAlertContext();
 
   const formik = useFormik({
-    initialValues: {},
-    onSubmit: (values) => {},
-    validationSchema: Yup.object({}),
+    initialValues: {
+      firstName: "",
+      email: "",
+      type: "hireMe",
+      comment: "",
+    },
+    onSubmit: async (values) => {
+      await submit(values);
+      if (response?.type === 'success') {
+        onOpen('success', `Thanks for your submission ${values.firstName}, we will get back to you shortly!`);
+        formik.resetForm();
+      } else {
+        onOpen('error', 'Something went wrong, please try again later!');
+      }
+    },
+    validationSchema: Yup.object({
+      firstName: Yup.string().required("Required"),
+      email: Yup.string().email("Invalid email address").required("Required"),
+      type: Yup.string()
+        .matches(/(hireMe|openSource|other)/, "Please select a valid type")
+        .required("Required"),
+      comment: Yup.string()
+        .min(10, "Must be at least 10 characters")
+        .required("Required"),
+    }),
   });
 
   return (
