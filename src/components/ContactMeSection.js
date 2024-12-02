@@ -49,6 +49,11 @@ const LandingSection = () => {
     }),
   });
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    formik.handleSubmit();
+  }
+
   return (
     <FullScreenSection
       isDarkBackground
@@ -61,7 +66,7 @@ const LandingSection = () => {
           Contact me
         </Heading>
         <Box p={6} rounded="md" w="100%">
-          <form>
+          <form onSubmit={handleSubmit}>
             <VStack spacing={4}>
               <FormControl isInvalid={formik.touched.firstName && formik.errors.firstName}>
                 <FormLabel htmlFor="firstName">Name</FormLabel>
