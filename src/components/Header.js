@@ -30,7 +30,8 @@ const socials = [
 ];
 
 const Header = () => {
-  const handleClick = (anchor) => () => {
+  const handleClick = (anchor) => (e) => {
+    e.preventDefault();
     const id = `${anchor}-section`;
     const element = document.getElementById(id);
     if (element) {
@@ -61,9 +62,10 @@ const Header = () => {
           alignItems="center"
         >
           <nav>
-            <HStack spacing={6}>
+            <HStack spacing={8}>
               {socials.map(social => (
                 <a
+                  key={social.url}
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -75,7 +77,12 @@ const Header = () => {
           </nav>
           <nav>
             <HStack spacing={8}>
-              {/* Add links to Projects and Contact me section */}
+              {
+                <>
+                  <a href="projects" onClick={handleClick("projects")}>Projects</a>
+                  <a href="/#contactme" onClick={handleClick("contactme")}>Contact Me</a>
+                </>
+              }
             </HStack>
           </nav>
         </HStack>
