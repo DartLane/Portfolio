@@ -21,6 +21,18 @@ const LandingSection = () => {
   const {isLoading, response, submit} = useSubmit();
   const { onOpen } = useAlertContext();
 
+  useEffect(() => {
+    if (response) {
+      onOpen(
+        response.type,
+        response.message
+      );
+      if (response.type === 'success') {
+        formik.resetForm();
+      }
+    }
+  }, [response]);
+
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -29,13 +41,7 @@ const LandingSection = () => {
       comment: "",
     },
     onSubmit: async (values) => {
-      await submit(values);
-      if (response?.type === 'success') {
-        onOpen('success', `Thanks for your submission ${values.firstName}, we will get back to you shortly!`);
-        formik.resetForm();
-      } else {
-        onOpen('error', 'Something went wrong, please try again later!');
-      }
+      await submit('https://example.com/api/contact', values);
     },
     validationSchema: Yup.object({
       firstName: Yup.string().required("Required"),
