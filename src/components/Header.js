@@ -9,6 +9,7 @@ import {
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import { Box, HStack } from "@chakra-ui/react";
+import useHeaderScroll from '../hooks/useHeaderScroll';
 
 const socials = [
   {
@@ -30,6 +31,8 @@ const socials = [
 ];
 
 const Header = () => {
+  const headerRef = useHeaderScroll();
+
   const handleClick = (anchor) => (e) => {
     e.preventDefault();
     const id = `${anchor}-section`;
@@ -45,6 +48,7 @@ const Header = () => {
 
   return (
     <Box
+      ref={headerRef}
       position="fixed"
       top={0}
       left={0}
